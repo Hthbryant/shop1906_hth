@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -18,5 +19,5 @@ public class BaseEntity implements Serializable {
     @TableId(type = IdType.AUTO)
     protected Integer id;
     protected Integer status;
-    protected Data createTime;
+    protected Date createTime = new Date();
 }

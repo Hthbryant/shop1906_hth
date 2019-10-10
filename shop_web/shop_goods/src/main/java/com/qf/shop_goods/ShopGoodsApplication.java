@@ -1,4 +1,4 @@
-package com.qf.web_back;
+package com.qf.shop_goods;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -10,10 +10,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableEurekaClient
 @EnableFeignClients(basePackages = "com.qf.feign")
 @MapperScan(basePackages = "com.qf.dao")
-public class WebBackApplication {
+public class ShopGoodsApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WebBackApplication.class, args);
+        SpringApplication.run(ShopGoodsApplication.class, args);
     }
 
 }

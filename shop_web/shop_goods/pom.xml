@@ -3,14 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>shop1906_hth</artifactId>
         <groupId>com.qf</groupId>
+        <artifactId>shop1906_hth</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.qf</groupId>
-    <artifactId>web_back</artifactId>
+    <artifactId>shop_goods</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>web_back</name>
+    <name>shop_goods</name>
     <description>Demo project for Spring Boot</description>
 
     <dependencies>
@@ -32,12 +32,6 @@
         </dependency>
         <dependency>
             <groupId>com.qf</groupId>
-            <artifactId>shop_feign</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.qf</groupId>
             <artifactId>shop_entity</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -45,6 +39,11 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.qf</groupId>
+            <artifactId>shop_feign</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -57,5 +56,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 
 </project>
