@@ -7,20 +7,70 @@
     <!-- Invalid Stylesheet. This makes stuff look pretty. Remove it if you want the CSS completely valid -->
     <!-- Reset Stylesheet -->
     <link rel="stylesheet" href="resources/css/reset.css" type="text/css"
-          media="screen" />
+          media="screen"/>
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="resources/css/style.css" type="text/css"
-          media="screen" />
+          media="screen"/>
     <link rel="stylesheet" href="resources/css/invalid.css" type="text/css"
-          media="screen" />
+          media="screen"/>
 
     <!--                       Javascripts                       -->
     <!-- jQuery -->
     <script type="text/javascript"
-            src="resources/scripts/jquery-1.3.2.min.js"></script>
+            src="resources/scripts/jquery-1.8.3.min.js"></script>
     <!-- jQuery Configuration -->
-    <script type="text/javascript"
-            src="resources/scripts/simpla.jquery.configuration.js"></script>
+    <!--<script type="text/javascript"
+            src="resources/scripts/simpla.jquery.configuration.js"></script>-->
+
+
+    <!-- 引入弹出框插件的js文件 -->
+    <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+    <script type="text/javascript" src="resources/widget/dialog/jquery-ui-1.9.2.custom.min.js"></script>
+
+    <!-- 引入上传图片控件的js文件 -->
+    <link rel="stylesheet" href="resources/widget/webuploader/webuploader.css">
+    <script type="text/javascript" src="resources/widget/webuploader/webuploader.min.js"></script>
+
+    <script>
+        /*添加商品的单击事件*/
+        function dialog_addGoods() {
+            $("#goodsAdd").dialog({
+                title: "添加商品",
+                width: 800,
+                height: 700,
+                modal: true
+            });
+        }
+        $(function () {
+            // 初始化Web Uploader
+            var uploader = WebUploader.create({
+                // 选完文件后，是否自动上传。
+                auto: true,
+                // swf文件路径
+                swf: 'resources/widget/webuploader/Uploader.swf',
+                // 文件接收服务端。
+                server: 'goodsManager/uploader',
+                // 选择文件的按钮。可选。
+                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                pick: '#filePicker1'
+            });
+
+            //绑定一个上传成功的回调事件
+            uploader.on('uploadSuccess', function(file, response){
+                //通过文件名称，进行图片的回显示
+                var filename = response.filename;
+
+                //设置image显示的图片
+                $("#img_fengmian").attr("src", "goodsManager/showImg?filename=" + filename);
+
+                //设置封面的路径到隐藏域
+                $("#hidden_fengmian").val(filename);
+
+            });
+        })
+
+    </script>
+
 </head>
 <body>
 <div id="main-content">
@@ -31,7 +81,7 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input class="check-all" type="checkbox" /></th>
+                        <th><input class="check-all" type="checkbox"/></th>
                         <th>编号</th>
                         <th>商品标题</th>
                         <th>封面图片</th>
@@ -44,7 +94,7 @@
 
                     <tbody>
                     <tr th:each="goods : ${goodsList}">
-                        <td><input type="checkbox" /></td>
+                        <td><input type="checkbox"/></td>
                         <td th:text="${goods.id}">编号</td>
                         <th th:text="${goods.subject}">商品标题</th>
                         <th th:text="${goods.fengmian}">封面图片</th>
@@ -53,12 +103,12 @@
                         <th th:text="${goods.createTime}">创建时间</th>
                         <td>
                             <!-- Icons --> <a href="#" title="Edit"><img
-                                src="resources/images/icons/pencil.png" alt="Edit" /></a> <a
+                                src="resources/images/icons/pencil.png" alt="Edit"/></a> <a
                                 href="#" title="Delete"><img
-                                src="resources/images/icons/cross.png" alt="Delete" /></a> <a
+                                src="resources/images/icons/cross.png" alt="Delete"/></a> <a
                                 href="#" title="Edit Meta"><img
                                 src="resources/images/icons/hammer_screwdriver.png"
-                                alt="Edit Meta" /></a>
+                                alt="Edit Meta"/></a>
                         </td>
                     </tr>
                     </tbody>
@@ -66,20 +116,16 @@
                     <tr>
                         <td colspan="6">
                             <div class="bulk-actions align-left">
-                                <select name="dropdown">
-                                    <option value="option1">Choose an action...</option>
-                                    <option value="option2">Edit</option>
-                                    <option value="option3">Delete</option>
-                                </select> <a class="mybutton" href="#">Apply to selected</a>
+                                <a class="mybutton" onclick="dialog_addGoods();">添加商品</a>
                             </div>
                             <div class="pagination">
-                                <a href="#" title="First Page">&laquo; First</a><a href="#"
-                                                                                   title="Previous Page">&laquo; Previous</a> <a href="#"
-                                                                                                                                 class="number" title="1">1</a> <a href="#" class="number"
-                                                                                                                                                                   title="2">2</a> <a href="#" class="number current" title="3">3</a>
-                                <a href="#" class="number" title="4">4</a> <a href="#"
-                                                                              title="Next Page">Next &raquo;</a><a href="#"
-                                                                                                                   title="Last Page">Last &raquo;</a>
+                                <a href="#" title="First Page">&laquo; First</a><a href="#" title="Previous Page">&laquo;
+                                Previous</a> <a href="#" class="number" title="1">1</a>
+                                <a href="#" class="number" title="2">2</a>
+                                <a href="#" class="number current" title="3">3</a>
+                                <a href="#" class="number" title="4">4</a> <a href="#" title="Next Page">Next
+                                &raquo;</a>
+                                <a href="#" title="Last Page">Last &raquo;</a>
                             </div> <!-- End .pagination -->
                             <div class="clear"></div>
                         </td>
@@ -87,6 +133,53 @@
                     </tfoot>
                 </table>
             </div>
+        </div>
+        <!-- End .content-box-content -->
+    </div>
+</div>
+<!-- 添加商品弹出框 -->
+<div id="goodsAdd" style="display: none">
+    <div class="content-box">
+        <div class="content-box-content">
+            <div class="tab-content default-tab" id="tab2">
+                <form action="#" method="post">
+                    <fieldset>
+                        <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
+                        <p>
+                            <label>商品名称</label> <input
+                                class="text-input medium-input" type="text" id="small-input"
+                                name="small-input"/>
+                        </p>
+                        <p>
+                            <label>上传图片</label>
+                            <img id="img_fengmian" style="width: 80px;height: 70px;"/>
+                            <input type="hidden" id="hidden_fengmian" name="fengmian" value=""/>
+                             <div id="filePicker1">上传封面</div>
+                        </p>
+                        <p>
+                            <label>价格</label> <input
+                                class="text-input small-input" type="text" id="price"
+                                name="large-input"/>
+                        </p>
+                        <p>
+                            <label>库存</label> <input
+                                class="text-input small-input" type="text" id="storage"
+                                name="large-input"/>
+                        </p>
+                        <p>
+                            <label>商品详情</label>
+                            <textarea class="text-input textarea wysiwyg" id="textarea"
+                                      name="textfield" cols="79" rows="15"></textarea>
+                        </p>
+                        <p>
+                            <input class="mybutton" type="submit" value="Submit"/>
+                        </p>
+                    </fieldset>
+                    <div class="clear"></div>
+                    <!-- End .clear -->
+                </form>
+            </div>
+            <!-- End #tab2 -->
         </div>
         <!-- End .content-box-content -->
     </div>

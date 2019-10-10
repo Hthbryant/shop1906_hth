@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,9 +21,14 @@ public class GoodsManagerController {
     public String queryAllGoods(ModelMap map){
         System.out.println("进来这goodsManager/list 方法");
         List<Goods> goodsList = backService.queryAllGoods();
-        System.out.println("商品集合为：");
-        System.out.println(goodsList);
         map.put("goodsList",goodsList);
         return "goodsList";
+    }
+
+    @RequestMapping("/uploader")
+    public void imgUpload(MultipartFile file){
+        System.out.println(file.getOriginalFilename());
+        System.out.println(file.getSize());
+
     }
 }
