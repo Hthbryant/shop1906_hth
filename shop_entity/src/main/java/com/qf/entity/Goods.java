@@ -29,4 +29,7 @@ public class Goods extends BaseEntity {
     @TableField(exist = false)
     private List<String> otherImg;
 
+    @TableField(exist = false)
+    private List<GoodsImages> goodsImagesList;
+
 }

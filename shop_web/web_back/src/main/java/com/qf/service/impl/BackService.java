@@ -1,6 +1,6 @@
 package com.qf.service.impl;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.qf.dao.BGoodsMapper;
 import com.qf.entity.Goods;
 import com.qf.feign.GoodsFeign;
 import com.qf.service.IBackService;
@@ -13,7 +13,7 @@ import java.util.List;
 public class BackService implements IBackService {
 
     @Autowired
-    private BaseMapper baseMapper;
+    private BGoodsMapper bGoodsMapper;
 
     @Autowired
     private GoodsFeign goodsFeign;

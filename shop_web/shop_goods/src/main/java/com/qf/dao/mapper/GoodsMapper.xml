@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qf.dao.GoodsMapper">
+    <resultMap id="myResultMap" type="com.qf.entity.Goods">
+        <id column="id" property="id"/>
+        <result column="subject" property="subject"/>
+        <result column="info" property="info"/>
+        <result column="price" property="price"/>
+        <result column="storage" property="storage"/>
+        <result column="create_time" property="createTime"/>
+        <result column="status" property="status"/>
+
+        <collection property="goodsImagesList" ofType="com.qf.entity.GoodsImages">
+            <id column="gi_id" property="id"/>
+            <result column="gid" property="gid"/>
+            <result column="url" property="url"/>
+            <result column="image_info" property="imageInfo"/>
+            <result column="is_default" property="isDefault"/>
+        </collection>
+    </resultMap>
+
+    <select id="queryGoodsList" resultMap="myResultMap">
+        select *,gi.id as 'gi_id'  from goods g join goods_images gi on g.id = gi.gid
+    </select>
+</mapper>

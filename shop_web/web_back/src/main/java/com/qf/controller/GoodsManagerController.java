@@ -1,6 +1,7 @@
 package com.qf.controller;
 
 import com.qf.entity.Goods;
+import com.qf.feign.GoodsFeign;
 import com.qf.service.IBackService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class GoodsManagerController {
 
     @Autowired
     private IBackService backService;
+
+    @Autowired
+    private GoodsFeign goodsFeign;
 
     private String uploadPath="D:\\idea\\uploadImg";
 
@@ -74,6 +78,17 @@ public class GoodsManagerController {
            IOUtils.copy(in,out);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @RequestMapping("/insert")
+    @ResponseBody
+    public String insert(Goods good){
+        boolean flag = goodsFeign.insert(good);
+        if(flag){
+            return "<script>alert('添加商品成功');location.href='/back/goodsManager/list';</script>";
+        }else{
+            return "<script>alert('添加商品失败');location.href='/back/goodsManager/list';</script>";
         }
     }
 }

@@ -67,7 +67,8 @@
                $("#hidden_fengmian").val(filename);
 
             });
-
+        })
+        $(function () {
             var uploader2 = WebUploader.create({
                 // 选完文件后，是否自动上传。
                 auto: true,
@@ -83,8 +84,10 @@
             //绑定一个上传成功的回调事件
             uploader2.on('uploadSuccess', function(file, response){
                 //通过文件名称，进行图片的回显示
-                var filename = response.filename;
-
+                var filename = response.fileName;
+                var html = "<img style='margin: 5px;width: 100px;height: 90px;border: black solid 1px' src='goodsManager/showImg?fileName="+filename+"'/>";
+                html+="<input type='hidden' name='otherImg' value='"+filename+"'/>";
+                $("#other_img").append(html);
             });
         })
 
@@ -116,7 +119,9 @@
                         <td><input type="checkbox"/></td>
                         <td th:text="${goods.id}">编号</td>
                         <th th:text="${goods.subject}">商品标题</th>
-                        <th th:text="${goods.fengmian}">封面图片</th>
+                        <td th:each=" imgs : ${goods.goodsImagesList}" th:if="${imgs.isDefault==1}">
+                            <img style="width: 80px;height: 70px;" th:src="|goodsManager/showImg?fileName=${imgs.url}|"/>
+                        </td>
                         <th th:text="${goods.price.doubleValue()}">价格</th>
                         <th th:text="${goods.storage}">库存</th>
                         <th th:text="${goods.createTime}">创建时间</th>
@@ -161,13 +166,13 @@
     <div class="content-box">
         <div class="content-box-content">
             <div class="tab-content default-tab" id="tab2">
-                <form action="#" method="post">
+                <form action="goodsManager/insert" method="post">
                     <fieldset>
                         <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
                         <p>
-                            <label>商品名称</label> <input
+                            <label>商品标题</label> <input
                                 class="text-input medium-input" type="text" id="small-input"
-                                name="small-input"/>
+                                name="subject"/>
                         </p>
                         <p>
                             <label>上传封面</label>
@@ -177,24 +182,23 @@
                         </p>
                         <p>
                             <label>上传其它图片</label>
-                            <div style="width: 100%;height: 200px; border: black solid 1px"></div>
-                            <input type="hidden" id="otherImg" name="fengmian" value=""/>
-                        <div id="filePicker2" style="margin-top: 10px">上传其它图片</div>
+                            <div id="other_img" style="width: 100%;height: 200px; border: black solid 1px"></div>
+                             <div id="filePicker2" style="margin-top: 10px">上传其它图片</div>
                         </p>
                         <p>
                             <label>价格</label> <input
                                 class="text-input small-input" type="text" id="price"
-                                name="large-input"/>
+                                name="price"/>
                         </p>
                         <p>
                             <label>库存</label> <input
                                 class="text-input small-input" type="text" id="storage"
-                                name="large-input"/>
+                                name="storage"/>
                         </p>
                         <p>
                             <label>商品详情</label>
                             <textarea class="text-input textarea wysiwyg" id="textarea"
-                                      name="textfield" cols="79" rows="15"></textarea>
+                                      name="info" cols="79" rows="15"></textarea>
                         </p>
                         <p>
                             <input class="mybutton" type="submit" value="Submit"/>
