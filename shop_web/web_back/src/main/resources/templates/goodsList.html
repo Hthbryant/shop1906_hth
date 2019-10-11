@@ -58,13 +58,32 @@
             //绑定一个上传成功的回调事件
             uploader.on('uploadSuccess', function(file, response){
                 //通过文件名称，进行图片的回显示
-                var filename = response.filename;
+                var filename = response.fileName;
 
                 //设置image显示的图片
-                $("#img_fengmian").attr("src", "goodsManager/showImg?filename=" + filename);
+               $("#img_fengmian").attr("src", "goodsManager/showImg?fileName=" + filename);
 
                 //设置封面的路径到隐藏域
-                $("#hidden_fengmian").val(filename);
+               $("#hidden_fengmian").val(filename);
+
+            });
+
+            var uploader2 = WebUploader.create({
+                // 选完文件后，是否自动上传。
+                auto: true,
+                // swf文件路径
+                swf: 'resources/widget/webuploader/Uploader.swf',
+                // 文件接收服务端。
+                server: 'goodsManager/uploader',
+                // 选择文件的按钮。可选。
+                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                pick: '#filePicker2'
+            });
+
+            //绑定一个上传成功的回调事件
+            uploader2.on('uploadSuccess', function(file, response){
+                //通过文件名称，进行图片的回显示
+                var filename = response.filename;
 
             });
         })
@@ -151,10 +170,16 @@
                                 name="small-input"/>
                         </p>
                         <p>
-                            <label>上传图片</label>
+                            <label>上传封面</label>
                             <img id="img_fengmian" style="width: 80px;height: 70px;"/>
                             <input type="hidden" id="hidden_fengmian" name="fengmian" value=""/>
                              <div id="filePicker1">上传封面</div>
+                        </p>
+                        <p>
+                            <label>上传其它图片</label>
+                            <div style="width: 100%;height: 200px; border: black solid 1px"></div>
+                            <input type="hidden" id="otherImg" name="fengmian" value=""/>
+                        <div id="filePicker2" style="margin-top: 10px">上传其它图片</div>
                         </p>
                         <p>
                             <label>价格</label> <input
