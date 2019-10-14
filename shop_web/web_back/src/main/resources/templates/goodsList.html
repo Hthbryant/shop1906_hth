@@ -61,7 +61,7 @@
                 var filename = response.fileName;
 
                 //设置image显示的图片
-               $("#img_fengmian").attr("src", "goodsManager/showImg?fileName=" + filename);
+               $("#img_fengmian").attr("src",filename);
 
                 //设置封面的路径到隐藏域
                $("#hidden_fengmian").val(filename);
@@ -85,7 +85,7 @@
             uploader2.on('uploadSuccess', function(file, response){
                 //通过文件名称，进行图片的回显示
                 var filename = response.fileName;
-                var html = "<img style='margin: 5px;width: 100px;height: 90px;border: black solid 1px' src='goodsManager/showImg?fileName="+filename+"'/>";
+                var html = "<img style='margin: 5px;width: 100px;height: 90px;border: black solid 1px' src='"+filename+"'/>";
                 html+="<input type='hidden' name='otherImg' value='"+filename+"'/>";
                 $("#other_img").append(html);
             });
@@ -120,7 +120,7 @@
                         <td th:text="${goods.id}">编号</td>
                         <th th:text="${goods.subject}">商品标题</th>
                         <td th:each=" imgs : ${goods.goodsImagesList}" th:if="${imgs.isDefault==1}">
-                            <img style="width: 80px;height: 70px;" th:src="|goodsManager/showImg?fileName=${imgs.url}|"/>
+                            <img style="width: 80px;height: 70px;" th:src="${imgs.url}"/>
                         </td>
                         <th th:text="${goods.price.doubleValue()}">价格</th>
                         <th th:text="${goods.storage}">库存</th>

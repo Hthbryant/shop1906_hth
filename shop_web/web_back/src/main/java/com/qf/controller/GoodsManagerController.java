@@ -1,5 +1,7 @@
 package com.qf.controller;
 
+import com.github.tobato.fastdfs.domain.StorePath;
+import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.qf.entity.Goods;
 import com.qf.feign.GoodsFeign;
 import com.qf.service.IBackService;
@@ -25,6 +27,9 @@ public class GoodsManagerController {
 
     @Autowired
     private GoodsFeign goodsFeign;
+
+    @Autowired
+    private FastFileStorageClient fastFileStorageClient;
 
     private String uploadPath="D:\\idea\\uploadImg";
 
@@ -53,16 +58,33 @@ public class GoodsManagerController {
         String fileName = UUID.randomUUID().toString();
         uploadFile = new File(uploadFile,fileName);
 
-        try (
+
+        String uplodaImagePath = null;
+        //上传图片
+        try {
+            StorePath storePath = fastFileStorageClient.uploadImageAndCrtThumbImage(
+                    file.getInputStream(),
+                    file.getSize(),
+                    "jpg",
+                    null
+            );
+            String fullPath = storePath.getFullPath();
+            System.out.println("上传之后的文件名为："+fullPath);
+            uplodaImagePath = "http://192.168.98.172:8080/"+fullPath;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        /*try (
                 InputStream in = file.getInputStream();
                 OutputStream out = new FileOutputStream(uploadFile);
         ){
             IOUtils.copy(in,out);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
-        return "{\"fileName\":\""+fileName+"\"}";
+
+        return "{\"fileName\":\""+uplodaImagePath+"\"}";
 
     }
     @RequestMapping("/showImg")
