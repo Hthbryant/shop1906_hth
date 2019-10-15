@@ -705,7 +705,7 @@
                 <li  th:each="goods : ${goodsList}">
                     <dl>
                         <dt><a ><img  th:src="${goods.fengmian}" /></a></dt>
-                        <dd class="title"><a th:text="${goods.subject}"></a></dd>
+                        <dd class="title"><a th:utext="${goods.subject}"></a></dd>
                         <dd class="content">
                             <span class="goods_jiage" th:text="${#numbers.formatCurrency(goods.price)}">￥<strong>249.00</strong></span>
                             <span class="goods_chengjiao" th:text="|剩余库存${goods.storage}件|">最近成交5笔</span>
