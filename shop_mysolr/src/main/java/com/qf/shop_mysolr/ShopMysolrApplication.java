@@ -1,13 +1,13 @@
-package com.qf.shop_search;
+package com.qf.shop_mysolr;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ShopSearchApplication {
+public class ShopMysolrApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ShopSearchApplication.class, args);
+        SpringApplication.run(ShopMysolrApplication.class, args);
     }
 
 }

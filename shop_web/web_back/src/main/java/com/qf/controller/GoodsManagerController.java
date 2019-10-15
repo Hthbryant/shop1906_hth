@@ -84,6 +84,9 @@ public class GoodsManagerController {
         }*/
 
 
+        //将商品信息添加到索引库
+
+
         return "{\"fileName\":\""+uplodaImagePath+"\"}";
 
     }

@@ -8,12 +8,25 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.qf</groupId>
-    <artifactId>shop_search</artifactId>
+    <artifactId>shop_searchtest</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>shop_search</name>
+    <name>shop_searchtest</name>
     <description>Demo project for Spring Boot</description>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.qf</groupId>
+            <artifactId>shop_entity</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-solr</artifactId>
