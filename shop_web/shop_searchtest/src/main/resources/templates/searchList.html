@@ -704,7 +704,7 @@
             <ul>
                 <li  th:each="goods : ${goodsList}">
                     <dl>
-                        <dt><a ><img  th:src="${goods.fengmian}" /></a></dt>
+                        <dt><a  th:href="|http://localhost:16666/html/${goods.id}.html|"><img  th:src="${goods.fengmian}" /></a></dt>
                         <dd class="title"><a th:utext="${goods.subject}"></a></dd>
                         <dd class="content">
                             <span class="goods_jiage" th:text="${#numbers.formatCurrency(goods.price)}">￥<strong>249.00</strong></span>

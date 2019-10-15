@@ -4,6 +4,7 @@ import com.qf.dao.GoodsImagesMapper;
 import com.qf.dao.GoodsMapper;
 import com.qf.entity.Goods;
 import com.qf.entity.GoodsImages;
+import com.qf.feign.ItemFeign;
 import com.qf.feign.SearchFeign;
 import com.qf.service.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Autowired
     private SearchFeign searchFeign;
+
+    @Autowired
+    private ItemFeign itemFeign;
 
     @Override
     public List<Goods> queryAllGoods() {
@@ -52,12 +56,18 @@ public class GoodsServiceImpl implements IGoodsService {
             goodsImagesMapper.insert(otherImage);
         }
 
+        //创建静态页面
+        if(!itemFeign.createHtml(goods)){
+            throw new RuntimeException("创建商品详情静态页面失败");
+        }
+
+
         //将商品信息添加到索引库
-        boolean flag = searchFeign.insertSolr(goods);
-        System.out.println("将商品信息添加到索引库的结果为："+flag);
-        /*if(!searchFeign.insertSolr(goods)){
+        /*boolean flag = searchFeign.insertSolr(goods);
+        System.out.println("将商品信息添加到索引库的结果为："+flag);*/
+        if(!searchFeign.insertSolr(goods)){
             throw new RuntimeException("添加商品到索引库失败");
-        }*/
+        }
 
         return result;
     }
