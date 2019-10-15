@@ -10,4 +10,7 @@ public interface SearchFeign {
 
     @RequestMapping("/search/insert")
     boolean insertSolr(@RequestBody Goods goods);
+
+//    @RequestMapping("/search/keyword")
+//    String searchByKeyword(String keyword, ModelMap map);
 }
