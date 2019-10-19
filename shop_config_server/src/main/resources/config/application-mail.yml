@@ -1,0 +1,6 @@
+spring:
+  mail:
+    host: smtp.sina.com
+    username: hthbryant@sina.com
+    password: c6d281734b9cf5b7
+    protocol: smtp
