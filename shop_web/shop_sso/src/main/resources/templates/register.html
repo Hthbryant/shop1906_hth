@@ -20,26 +20,22 @@
             <h3>用户注册</h3>
         </div>
         <div class="form-bd">
-            <form action="" method="POST">
+            <form th:action="|${#request.getContextPath()}/sso/register|" method="POST">
                 <dl>
                     <dt>用户名</dt>
-                    <dd><input type="text" name="user" class="text" /></dd>
+                    <dd><input type="text" name="username" class="text" /></dd>
                 </dl>
                 <dl>
                     <dt>密码</dt>
-                    <dd><input type="password" name="pwd" class="text"/></dd>
-                </dl>
-                <dl>
-                    <dt>确认密码</dt>
-                    <dd><input type="password" name="repwd" class="text"/></dd>
+                    <dd><input type="password" name="password" class="text"/></dd>
                 </dl>
                 <dl>
                     <dt>邮箱</dt>
                     <dd><input type="text" name="email" class="text"/></dd>
                 </dl>
                 <dl>
-                    <dt>验证码</dt>
-                    <dd><input type="text" name="code" class="text" size="10" style="width:58px;"> <img src="images/code.png" alt="" align="absmiddle" style="position:relative;top:-2px;"/> <a href="" style="color:#999;">看不清，换一张</a></dd>
+                    <dt>手机</dt>
+                    <dd><input type="text" name="phone" class="text"/></dd>
                 </dl>
                 <dl>
                     <dt>&nbsp;</dt>

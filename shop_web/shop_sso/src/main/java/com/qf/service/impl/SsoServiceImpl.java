@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class SsoServiceImpl implements ISsoService {
@@ -44,15 +45,16 @@ public class SsoServiceImpl implements ISsoService {
         String updatePasswordId = UUID.randomUUID().toString();
         String updateUrl="http://localhsot:16666/sso/toUpdatePassword?token="+updatePasswordId;
         stringRedisTemplate.opsForValue().set(updatePasswordId,username);
-//        stringRedisTemplate.expire(updatePasswordId,30, TimeUnit.SECONDS);
+        stringRedisTemplate.expire(updatePasswordId,5, TimeUnit.MINUTES);
 
 
         System.out.println("将邮件队形上传到rabbitmq");
 
 
         //将邮件对象上传到rabbitmq
-        Email email = new Email().setTo(user.getEmail()).setSubject("凌易管理系统找回密码").setContent("您的账号申请了密码找回，如果是本人操作，修改密码请点击：<a href='"+updateUrl+"'>这里</a>");
+        Email email = new Email().setTo(user.getEmail()).setSubject("凌易管理系统找回密码").setContent("您的账号申请了密码找回，如果是本人操作，修改密码请点击：<a href='"+updateUrl+"'>"+updateUrl+"</a>");
         rabbitTemplate.convertAndSend("mail_exchange","",email);
+
 
 
         String hideMessage = user.getEmail().substring(3, user.getEmail().indexOf("@"));
@@ -66,5 +68,19 @@ public class SsoServiceImpl implements ISsoService {
     @Override
     public int updatePassword(User user) {
         return ssoMapper.updateById(user);
+    }
+
+    @Override
+    public int register(User user) {
+        return ssoMapper.insert(user);
+    }
+
+    @Override
+    public User loginByNamePwd(String username, String password) {
+        User user = this.queryUserByName(username);
+        if(user!=null && user.getPassword().equals(password)){
+            return user;
+        }
+        return null;
     }
 }

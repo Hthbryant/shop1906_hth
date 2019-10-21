@@ -10,4 +10,8 @@ public interface ISsoService {
     ResultData sendEmail(String username);
 
     int updatePassword(User user);
+
+    int register(User user);
+
+    User loginByNamePwd(String username, String password);
 }
