@@ -51,12 +51,13 @@ public class SSOController {
     public String login(String username, String password,String returnUrl, HttpServletResponse response){
         System.out.println("进来了这里");
         System.out.println(username+","+password);
+        System.out.println("returnUrl:"+returnUrl);
         User user  = ssoService.loginByNamePwd(username,password);
 
-        String url = null;
-        if(returnUrl== null || returnUrl==""){
-            url="http://localhost:16666/";
+        if( returnUrl == null){
+            returnUrl="http://localhost:16666/";
         }
+
         if(user!=null){
 
             String token = UUID.randomUUID().toString();
@@ -65,9 +66,12 @@ public class SSOController {
 
             Cookie cookie = new Cookie("login_token",token);
             cookie.setMaxAge(60*60*24*7);
+            cookie.setPath("/");
             response.addCookie(cookie);
 
-            return "redirect:"+url;
+            System.out.println("最终的url:"+returnUrl);
+
+            return "redirect:"+returnUrl;
         }
         return "login";
     }
@@ -78,6 +82,7 @@ public class SSOController {
         if(loginToken!=null){
             Cookie cookie = new Cookie("login_token",loginToken);
             cookie.setMaxAge(0);
+            cookie.setPath("/");
             response.addCookie(cookie);
 
             redisTemplate.delete(loginToken);

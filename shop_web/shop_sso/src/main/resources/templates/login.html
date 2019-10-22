@@ -74,7 +74,8 @@
             <h3>用户登录</h3>
         </div>
         <div class="form-bd">
-            <form th:action="|${#request.getContextPath()}/sso/login|" method="POST">
+            <form th:action="|${#request.getContextPath()}/sso/login|" method="GET">
+                <input type="hidden" name="returnUrl" th:value="${#request.getParameter('returnUrl')}"/>
                 <dl>
                     <dt>用户名</dt>
                     <dd><input type="text" name="username" class="text" /></dd>

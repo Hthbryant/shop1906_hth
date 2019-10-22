@@ -25,6 +25,10 @@ spring:
         - uri: lb://web-sso
           predicates:
             - Path=/sso/**
+        #配置sso服务的路由规则
+        - uri: lb://web-cart
+          predicates:
+            - Path=/cart/**
         #配置前台服务的路由规则
         - uri: lb://web-front
           predicates:
