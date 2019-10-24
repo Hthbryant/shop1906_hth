@@ -31,6 +31,11 @@ public class SSOController {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    /**
+     * 判断是否登录
+     * @param loginToken
+     * @return
+     */
     @RequestMapping("/isLogin")
     @ResponseBody
     public ResultData<User> isLogin(@CookieValue(value = "login_token",required = false) String loginToken){
@@ -71,7 +76,10 @@ public class SSOController {
 
             System.out.println("最终的url:"+returnUrl);
 
-            return "redirect:"+returnUrl;
+
+            //登录以后合并购物车
+
+            return "redirect:http://localhost:16666/cart/merge?returnUrl="+returnUrl;
         }
         return "login";
     }

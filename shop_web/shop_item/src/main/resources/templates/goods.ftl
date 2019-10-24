@@ -57,15 +57,9 @@
 
                     <li>
                         <div class="topNav_menu">
-                            <a href="#" class="topNavHover">购物车<b>0</b>种商品<i></i></a>
-                            <div class="topNav_menu_bd" style="display:none;">
-                                <!--
-                                <ul>
-                                  <li><a title="已售出的商品" target="_top" href="#">已售出的商品</a></li>
-                                  <li><a title="销售中的商品" target="_top" href="#">销售中的商品</a></li>
-                                </ul>
-                                -->
-                                <p>还没有商品，赶快去挑选！</p>
+                            <a href="http://localhost:16666/cart/showCart" class="topNavHover">购物车<b id="cartnum">0</b>种商品<i></i></a>
+                            <div id="showshop" class="topNav_menu_bd" style="display:none;width: 300px;height: auto;">
+
                             </div>
                         </div>
                     </li>

@@ -13,4 +13,5 @@ public interface ICartService {
 
     List<Shopcart> getCart(String cartToken, User user);
 
+    void merge(String cartToken, User user);
 }

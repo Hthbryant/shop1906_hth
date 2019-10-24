@@ -21,5 +21,7 @@ public class Shopcart extends BaseEntity {
 
     @TableField(exist = false)
     private Goods goods;
+    @TableField(exist = false)
+    private BigDecimal shopPrice;
 
 }

@@ -38,7 +38,8 @@ public class CartServiceImpl implements ICartService {
                 user!=null?  user.getId() : null,
                 gnumber,
                 null,
-                goods
+                goods,
+                null
         );
 
         if(user!=null){
@@ -75,6 +76,20 @@ public class CartServiceImpl implements ICartService {
             Long size = redisTemplate.opsForList().size(cartToken);
             List<Shopcart> shopcartList =  redisTemplate.opsForList().range(cartToken,0,size);
             return shopcartList;
+        }
+
+    }
+
+    @Override
+    public void merge(String cartToken, User user) {
+        //从redis中取出购物车的信息
+        Long size = redisTemplate.opsForList().size(cartToken);
+        List<Shopcart> shopcartList = redisTemplate.opsForList().range(cartToken,0, size);
+        if(shopcartList!=null){
+            for (Shopcart shopcart : shopcartList) {
+                shopcart.setUid(user.getId());
+                cartMapper.insert(shopcart);
+            }
         }
 
     }
