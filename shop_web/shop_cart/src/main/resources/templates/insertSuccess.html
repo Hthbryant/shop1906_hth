@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <base th:href="|${#request.getContextPath()}/resources/|"/>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="text/javascript" src="js/jquery.js"></script>
+
 </head>
 <body>
 <h1>添加商品成功</h1>
-
+<a href="http://localhost:16666/">回首页</a>
+<a href="javascript:history.go(-1)">返回上一页</a>
 </body>
 </html>

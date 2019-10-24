@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <base th:href="|${#request.getContextPath()}/resources/|">
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-    <title>商品列表页</title>
+    <base th:href="|${#request.getContextPath()}/resources/|"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>购物车页面</title>
     <link rel="stylesheet" href="css/base.css" type="text/css" />
     <link rel="stylesheet" href="css/shop_common.css" type="text/css" />
     <link rel="stylesheet" href="css/shop_header.css" type="text/css" />
-    <link rel="stylesheet" href="css/shop_list.css" type="text/css" />
+    <link rel="stylesheet" href="css/shop_gouwuche.css" type="text/css" />
     <script type="text/javascript" src="js/jquery.js" ></script>
     <script type="text/javascript" src="js/topNav.js" ></script>
-    <script type="text/javascript" src="js/shop_list.js" ></script>
+    <script type="text/javascript" src="js/jquery.goodnums.js" ></script>
+    <script type="text/javascript" src="js/shop_gouwuche.js" ></script>
     <script type="text/javascript" src="js/login.js"></script>
-    <script type="text/javascript" src="js/getShopCart.js"></script>
+    <script type="text/javascript" src="js/getCart.js"></script>
+
 </head>
 <body>
 <!-- Header  -wll-2013/03/24 -->
@@ -22,7 +24,7 @@
         <div class="shop_hd_topNav_all">
             <!-- Header TopNav Left -->
             <div class="shop_hd_topNav_all_left">
-                <p id="pid"></p>
+                <p>您好，欢迎来到<b><a href="/">ShoopNC商城</a></b>[<a >登录</a>][<a >注册</a>]</p>
             </div>
             <!-- Header TopNav Left End -->
 
@@ -56,16 +58,10 @@
 
                     <li>
                         <div class="topNav_menu">
-                            <a href="#" class="topNavHover">购物车<b>0</b>种商品<i></i></a>
-                            <div class="topNav_menu_bd" style="display:none;">
-                                <!--
-                                <ul>
-                                  <li><a title="已售出的商品" target="_top" href="#">已售出的商品</a></li>
-                                  <li><a title="销售中的商品" target="_top" href="#">销售中的商品</a></li>
-                                </ul>
-                                -->
-                                <p>还没有商品，赶快去挑选！</p>
-                            </div>
+                            <a class="topNavHover">购物车<b id="cartnum">0</b>种商品<i></i></a>
+                            <!--<div id="showshop" class="topNav_menu_bd" style="display:none;width: 220px;height: auto;">
+
+                            </div>-->
                         </div>
                     </li>
 
@@ -138,7 +134,7 @@
                     <!-- 单个菜单项 -->
                     <li id="cat_1" class="">
                         <h3><a  title="男女服装">男女服装</a></h3>
-                        <div  class="cat_menu clearfix" style="">
+                        <div id="cat_1_menu" class="cat_menu clearfix" style="">
                             <dl class="clearfix">
                                 <dt><a href="女装" >女装</a></dt>
                                 <dd>
@@ -179,7 +175,7 @@
                     <!-- 单个菜单项 End -->
                     <li id="cat_2" class="">
                         <h3><a  title="鞋包配饰">鞋包配饰</a></h3>
-                        <div  class="cat_menu clearfix" style="">
+                        <div id="cat_1_menu" class="cat_menu clearfix" style="">
                             <dl class="clearfix">
                                 <dt><a href="鞋子" >鞋子</a></dt>
                                 <dd>
@@ -220,7 +216,7 @@
 
                     <li id="cat_3" class="">
                         <h3><a  title="美容美妆">美容美妆</a></h3>
-                        <div  class="cat_menu clearfix" style="">
+                        <div id="cat_1_menu" class="cat_menu clearfix" style="">
                             <dl class="clearfix">
                                 <dt><a href="美容" >美容</a></dt>
                                 <dd>
@@ -261,7 +257,7 @@
 
                     <li id="cat_4" class="">
                         <h3><a  title="美容美妆">美容美妆</a></h3>
-                        <div  class="cat_menu clearfix" style="">
+                        <div id="cat_1_menu" class="cat_menu clearfix" style="">
                             <dl class="clearfix">
                                 <dt><a href="美容" >美容</a></dt>
                                 <dd>
@@ -302,7 +298,7 @@
 
                     <li id="cat_5" class="">
                         <h3><a  title="美容美妆">美容美妆</a></h3>
-                        <div  class="cat_menu clearfix" style="">
+                        <div id="cat_1_menu" class="cat_menu clearfix" style="">
                             <dl class="clearfix">
                                 <dt><a href="美容" >美容</a></dt>
                                 <dd>
@@ -343,7 +339,7 @@
 
                     <li id="cat_6" class="">
                         <h3><a  title="美容美妆">美容美妆</a></h3>
-                        <div  class="cat_menu clearfix" style="">
+                        <div id="cat_1_menu" class="cat_menu clearfix" style="">
                             <dl class="clearfix">
                                 <dt><a href="美容" >美容</a></dt>
                                 <dd>
@@ -383,7 +379,7 @@
                     </li>
                     <li id="cat_7" class="">
                         <h3><a  title="美容美妆">美容美妆</a></h3>
-                        <div  class="cat_menu clearfix" style="">
+                        <div id="cat_1_menu" class="cat_menu clearfix" style="">
                             <dl class="clearfix">
                                 <dt><a href="美容" >美容</a></dt>
                                 <dd>
@@ -423,7 +419,7 @@
                     </li>
                     <li id="cat_8" class="">
                         <h3><a  title="美容美妆">美容美妆</a></h3>
-                        <div  class="cat_menu clearfix" style="">
+                        <div id="cat_1_menu" class="cat_menu clearfix" style="">
                             <dl class="clearfix">
                                 <dt><a href="美容" >美容</a></dt>
                                 <dd>
@@ -488,9 +484,8 @@
     <strong>当前位置：</strong>
     <span>
 			<a >首页</a>&nbsp;›&nbsp;
-			<a >商品分类</a>&nbsp;›&nbsp;
-			<a >男装女装</a>&nbsp;›&nbsp;
-			<a >男装</a>
+			<a >我的商城</a>&nbsp;›&nbsp;
+			<a >我的购物车</a>
 		</span>
 </div>
 <div class="clear"></div>
@@ -498,240 +493,91 @@
 
 <!-- Header End -->
 
-
-<!-- List Body 2013/03/27 -->
-<div class="shop_bd clearfix">
-    <div class="shop_bd_list_left clearfix">
-        <!-- 左边商品分类 -->
-        <div class="shop_bd_list_bk clearfix">
-            <div class="title">商品分类</div>
-            <div class="contents clearfix">
-                <dl class="shop_bd_list_type_links clearfix">
-                    <dt><strong>女装</strong></dt>
-                    <dd>
-                        <span><a >风衣</a></span>
-                        <span><a >长袖连衣裙</a></span>
-                        <span><a >毛呢连衣裙</a></span>
-                        <span><a >半身裙</a></span>
-                        <span><a >小脚裤</a></span>
-                        <span><a >加绒打底裤</a></span>
-                        <span><a >牛仔裤</a></span>
-                        <span><a >打底衫</a></span>
-                        <span><a >情侣装</a></span>
-                        <span><a >棉衣</a></span>
-                        <span><a >毛呢大衣</a></span>
-                        <span><a >毛呢短裤</a></span>
-                    </dd>
-                </dl>
-            </div>
+<!-- 购物车 Body -->
+<div class="shop_gwc_bd clearfix">
+    <!-- 在具体实现的时候，根据情况选择其中一种情况 -->
+    <!-- 购物车为空 -->
+    <div th:if="${shopcartList==null || #lists.size(shopcartList)==0}" class="empty_cart mb10">
+        <div class="message">
+            <p>购物车内暂时没有商品，您可以<a href="index.html">去首页</a>挑选喜欢的商品</p>
         </div>
-        <!-- 左边商品分类 End -->
-
-        <!-- 热卖推荐商品 -->
-        <div class="shop_bd_list_bk clearfix">
-            <div class="title">热卖推荐商品</div>
-            <div class="contents clearfix">
-                <ul class="clearfix">
-
-                    <li class="clearfix">
-                        <div class="goods_name"><a >Gap经典弹力纯色长袖T恤|000891347|原价149元</a></div>
-                        <div class="goods_pic"><span class="goods_price">¥ 279.00 </span><a ><img src="images/89a6d6466b00ae32d3c826b9ec639084.jpg_small.jpg" /></a></div>
-                        <div class="goods_xiaoliang">
-                            <span class="goods_xiaoliang_link"><a >去看看</a></span>
-                            <span class="goods_xiaoliang_nums">已销售<strong>99</strong>笔</span>
-                        </div>
-                    </li>
-
-                    <li class="clearfix">
-                        <div class="goods_name"><a >Gap经典弹力纯色长袖T恤|000891347|原价149元</a></div>
-                        <div class="goods_pic"><span class="goods_price">¥ 279.00 </span><a ><img src="images/89a6d6466b00ae32d3c826b9ec639084.jpg_small.jpg" /></a></div>
-                        <div class="goods_xiaoliang">
-                            <span class="goods_xiaoliang_link"><a >去看看</a></span>
-                            <span class="goods_xiaoliang_nums">已销售<strong>99</strong>笔</span>
-                        </div>
-                    </li>
-
-                    <li class="clearfix">
-                        <div class="goods_name"><a >Gap经典弹力纯色长袖T恤|000891347|原价149元</a></div>
-                        <div class="goods_pic"><span class="goods_price">¥ 279.00 </span><a ><img src="images/89a6d6466b00ae32d3c826b9ec639084.jpg_small.jpg" /></a></div>
-                        <div class="goods_xiaoliang">
-                            <span class="goods_xiaoliang_link"><a >去看看</a></span>
-                            <span class="goods_xiaoliang_nums">已销售<strong>99</strong>笔</span>
-                        </div>
-                    </li>
-
-                </ul>
-            </div>
-        </div>
-        <!-- 热卖推荐商品 -->
-        <div class="clear"></div>
-
-        <!-- 浏览过的商品 -->
-        <div class="shop_bd_list_bk clearfix">
-            <div class="title">浏览过的商品</div>
-            <div class="contents clearfix">
-                <ul class="clearfix">
-
-                    <li class="clearfix">
-                        <div class="goods_name"><a >Gap经典弹力纯色长袖T恤|000891347|原价149元</a></div>
-                        <div class="goods_pic"><span class="goods_price">¥ 279.00 </span><a ><img src="images/89a6d6466b00ae32d3c826b9ec639084.jpg_small.jpg" /></a></div>
-                        <div class="goods_xiaoliang">
-                            <span class="goods_xiaoliang_link"><a >去看看</a></span>
-                            <span class="goods_xiaoliang_nums">已销售<strong>99</strong>笔</span>
-                        </div>
-                    </li>
-
-                    <li class="clearfix">
-                        <div class="goods_name"><a >Gap经典弹力纯色长袖T恤|000891347|原价149元</a></div>
-                        <div class="goods_pic"><span class="goods_price">¥ 279.00 </span><a ><img src="images/89a6d6466b00ae32d3c826b9ec639084.jpg_small.jpg" /></a></div>
-                        <div class="goods_xiaoliang">
-                            <span class="goods_xiaoliang_link"><a >去看看</a></span>
-                            <span class="goods_xiaoliang_nums">已销售<strong>99</strong>笔</span>
-                        </div>
-                    </li>
-
-                    <li class="clearfix">
-                        <div class="goods_name"><a >Gap经典弹力纯色长袖T恤|000891347|原价149元</a></div>
-                        <div class="goods_pic"><span class="goods_price">¥ 279.00 </span><a ><img src="images/89a6d6466b00ae32d3c826b9ec639084.jpg_small.jpg" /></a></div>
-                        <div class="goods_xiaoliang">
-                            <span class="goods_xiaoliang_link"><a >去看看</a></span>
-                            <span class="goods_xiaoliang_nums">已销售<strong>99</strong>笔</span>
-                        </div>
-                    </li>
-
-                </ul>
-            </div>
-        </div>
-        <!-- 浏览过的商品 -->
-
     </div>
+    <!-- 购物车为空 end-->
 
-    <div class="shop_bd_list_right clearfix">
-        <!-- 条件筛选框 -->
-        <div class="module_filter">
-            <div class="module_filter_line">
-                <dl>
-                    <dt>尺码：</dt>
-                    <dd>
-                        <span><a >XXS</a></span>
-                        <span><a >XS</a></span>
-                        <span><a >S</a></span>
-                        <span><a >M</a></span>
-                        <span><a >L</a></span>
-                        <span><a >XL</a></span>
-                        <span><a >XXL</a></span>
-                        <span><a >XXXL</a></span>
-                        <span><a >加大XXXL</a></span>
-                        <span><a >均码</a></span>
-                    </dd>
-                </dl>
-
-                <dl>
-                    <dt>品牌：</dt>
-                    <dd>
-                        <span><a >彪马</a></span>
-                        <span><a >安踏</a></span>
-                        <span><a >阿迪达斯</a></span>
-                        <span><a >李宁</a></span>
-                        <span><a >匡威</a></span>
-                        <span><a >耐克</a></span>
-                        <span><a >卡帕</a></span>
-                        <span><a >鸿星尔克</a></span>
-                        <span><a >沃特</a></span>
-                        <span><a >垃圾</a></span>
-                    </dd>
-                </dl>
-
-                <dl>
-                    <dt>款式：</dt>
-                    <dd>
-                        <span><a >长袖</a></span>
-                        <span><a >短袖</a></span>
-                        <span><a >无袖</a></span>
-                        <span><a >两件套</a></span>
-                        <span><a >宽松</a></span>
-
-                    </dd>
-                </dl>
-
-                <dl>
-                    <dt>材质：</dt>
-                    <dd>
-                        <span><a >纯棉</a></span>
-                        <span><a >真丝</a></span>
-                        <span><a >聚酯</a></span>
-                        <span><a >棉+氨纶</a></span>
-                        <span><a >卡莱</a></span>
-                        <span><a >人造棉</a></span>
-                        <span><a >其它</a></span>
-                    </dd>
-                </dl>
-
-
-            </div>
-            <div class="bottom"></div>
-        </div>
-        <!-- 条件筛选框 -->
-
-        <!-- 显示菜单 -->
-        <div class="sort-bar">
-            <div class="bar-l">
-                <!-- 查看方式S -->
-                <div class="switch"><span class="selected"><a title="以方格显示" ecvalue="squares" nc_type="display_mode" class="pm" href="javascript:void(0)">大图</a></span><span style="border-left:none;"><a title="以列表显示" ecvalue="list" nc_type="display_mode" class="lm" href="javascript:void(0)">列表</a></span></div>
-                <!-- 查看方式E -->
-                <!-- 排序方式S -->
-                <ul class="array">
-                    <li class="selected"><a title="默认排序" onclick="javascript:dropParam(['key','order'],'','array');" class="nobg" href="javascript:void(0)">默认</a></li>
-                    <li><a title="点击按销量从高到低排序" onclick="javascript:replaceParam(['key','order'],['sales','desc'],'array');" href="javascript:void(0)">销量</a></li>
-                    <li><a title="点击按人气从高到低排序" onclick="javascript:replaceParam(['key','order'],['click','desc'],'array');" href="javascript:void(0)">人气</a></li>
-                    <li><a title="点击按信用从高到低排序" onclick="javascript:replaceParam(['key','order'],['credit','desc'],'array');" href="javascript:void(0)">信用</a></li>
-                    <li><a title="点击按价格从高到低排序" onclick="javascript:replaceParam(['key','order'],['price','desc'],'array');" href="javascript:void(0)">价格</a></li>
-                </ul>
-                <!-- 排序方式E -->
-                <!-- 价格段S -->
-                <div class="prices"> <em>¥</em>
-                    <input type="text" value="" class="w30">
-                    <em>-</em>
-                    <input type="text" value="" class="w30">
-                    <input type="submit" value="确认" id="search_by_price">
-                </div>
-                <!-- 价格段E -->
-            </div>
-        </div>
-        <div class="clear"></div>
-        <!-- 显示菜单 End -->
-
-        <!-- 商品列表 -->
-        <div class="shop_bd_list_content clearfix">
+    <!-- 购物车有商品 -->
+    <div th:unless="${shopcartList==null || #lists.size(shopcartList)==0}" class="shop_gwc_bd_contents clearfix">
+        <!-- 购物流程导航 -->
+        <div class="shop_gwc_bd_contents_lc clearfix">
             <ul>
-                <li  th:each="goods : ${goodsList}">
-                    <dl>
-                        <dt><a  th:href="|http://localhost:16666/html/${goods.id}.html|"><img  th:src="${goods.fengmian}" /></a></dt>
-                        <dd class="title"><a th:utext="${goods.subject}"></a></dd>
-                        <dd class="content">
-                            <span class="goods_jiage" th:text="${#numbers.formatCurrency(goods.price)}">￥<strong>249.00</strong></span>
-                            <span class="goods_chengjiao" th:text="|剩余库存${goods.storage}件|">最近成交5笔</span>
-                        </dd>
-                    </dl>
-                </li>
-
+                <li class="step_a hover_a">确认购物清单</li>
+                <li class="step_b">确认收货人资料及送货方式</li>
+                <li class="step_c">购买完成</li>
             </ul>
         </div>
-        <div class="clear"></div>
-        <div class="pagination">
-            <ul><li><span>首页</span></li>
-                <li><span>上一页</span></li>
-                <li><span class="currentpage">1</span></li>
-                <li><span>下一页</span></li>
-                <li><span>末页</span></li>
-            </ul>
-        </div>
-        <!-- 商品列表 End -->
+        <!-- 购物流程导航 End -->
+
+        <script>
+            function checkall(e) {
+                $("input[type='checkbox'][name='checkone']").attr('checked',e);
+            }
+        </script>
 
 
+        <!-- 购物车列表 -->
+        <table>
+            <thead>
+            <tr>
+                <th><span>全选
+                    <input type="checkbox" name="checkall" onclick="checkall(this.checked)"/>
+                </span></th>
+                <th colspan="2"><span>商品</span></th>
+                <th><span>单价(元)</span></th>
+                <th><span>数量</span></th>
+                <th><span>小计</span></th>
+                <!--<th><span>操作</span></th>-->
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="shopcart : ${shopcartList}">
+                <td class="gwc_list_xiaoji"><span>
+                    <input type="checkbox" name="checkone"  />
+                </span></td>
+                <td class="gwc_list_pic"><a ><img th:src="${shopcart.goods.fengmian}" src="images/4_7b5239c3f153ae4b67ff760f54408a5b.jpg_tiny.jpg"  style="width: 100px;height: 80px;"/></a></td>
+                <td class="gwc_list_title"><a th:text="${shopcart.goods.subject}" >双层花架简约韩式田园欧式地中海风格宜家纯白架现代花盆架电话架 </a></td>
+                <td class="gwc_list_danjia"><span th:text="${#numbers.formatCurrency(shopcart.goods.price)}">￥<strong id="danjia_001">2550.00</strong></span></td>
+                <td class="gwc_list_shuliang">
+                    <span>
+                    <a class="good_num_jian this_good_nums" did="danjia_001" xid="xiaoji_001" ty="-" valId="goods_001" href="javascript:void(0);">-</a>
+                    <input type="text" th:value="${shopcart.number}" value="1" id="goods_001" class="good_nums" />
+                    <a href="javascript:void(0);" did="danjia_001" xid="xiaoji_001" ty="+" class="good_num_jia this_good_nums" valId="goods_001">+</a>
+                    </span>
+                </td>
+                <td class="gwc_list_xiaoji"><span>￥<strong id="xiaoji_001" class="good_xiaojis">2550.00</strong></span></td>
+               <!-- <td class="gwc_list_caozuo"><a >收藏</a><a href="javascript:void(0);" class="shop_good_delete">删除</a></td>-->
+            </tr>
+
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="6">
+                    <div class="gwc_foot_zongjia">商品总价(不含运费)<span>￥<strong id="good_zongjia">12750.00</strong></span></div>
+                    <div class="clear"></div>
+                    <div class="gwc_foot_links">
+                        <a  class="go">继续购物</a>
+                        <a  class="op">确认并填写订单</a>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+        <!-- 购物车列表 End -->
     </div>
+    <!-- 购物车有商品 end -->
+
 </div>
-<!-- List Body End -->
+<!-- 购物车 Body End -->
 
 <!-- Footer - wll - 2013/3/24 -->
 <div class="clear"></div>

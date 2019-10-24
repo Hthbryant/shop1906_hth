@@ -54,7 +54,7 @@ public class SSOController {
         System.out.println("returnUrl:"+returnUrl);
         User user  = ssoService.loginByNamePwd(username,password);
 
-        if( returnUrl == null){
+        if( returnUrl == null || returnUrl== ""){
             returnUrl="http://localhost:16666/";
         }
 

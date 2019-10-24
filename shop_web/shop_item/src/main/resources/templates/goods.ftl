@@ -13,6 +13,7 @@
     <script type="text/javascript" src="js/topNav.js" ></script>
     <script type="text/javascript" src="js/shop_goods.js" ></script>
     <script type="text/javascript" src="js/login.js"></script>
+    <script type="text/javascript" src="js/getShopCart.js"></script>
 </head>
 <body>
 <!-- Header  -wll-2013/03/24 -->
@@ -609,9 +610,7 @@
     <script type="text/javascript">
         function addToCart() {
             var gid = ${goods.id};
-            alert(gid);
             var gnumber = $("#good_nums").val();
-            alert(gnumber);
             location.href="http://localhost:16666/cart/insert?gid="+gid+"&gnumber="+gnumber;
         }
 

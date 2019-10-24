@@ -3,4 +3,4 @@ spring:
     config:
       uri: http://localhost:20000
       name: application
-      profile: sso,eureka,thymeleaf,datasource,rabbitmq,redis
+      profile: sso,eureka,thymeleaf,datasource,rabbitmq,redis,feign

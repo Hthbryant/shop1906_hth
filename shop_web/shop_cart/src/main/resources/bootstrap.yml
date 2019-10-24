@@ -3,4 +3,4 @@ spring:
     config:
       uri: http://localhost:20000
       name: application
-      profile: cart,eureka,redis,datasource,thymeleaf
+      profile: cart,eureka,redis,datasource,thymeleaf,feign

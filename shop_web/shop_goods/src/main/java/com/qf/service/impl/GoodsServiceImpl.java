@@ -1,5 +1,6 @@
 package com.qf.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qf.dao.GoodsImagesMapper;
 import com.qf.dao.GoodsMapper;
 import com.qf.entity.Goods;
@@ -75,5 +76,15 @@ public class GoodsServiceImpl implements IGoodsService {
         rabbitTemplate.convertAndSend("goods_exchange","",goods);
 
         return result;
+    }
+
+    @Override
+    public Goods queryById(Integer gid) {
+        Goods goods = goodsMapper.selectById(gid);
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("gid",gid);
+        queryWrapper.eq("is_default",1);
+        goods.setFengmian(goodsImagesMapper.selectOne(queryWrapper).getUrl());
+        return goods;
     }
 }
