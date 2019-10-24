@@ -13,7 +13,7 @@
     <script type="text/javascript" src="js/jquery.goodnums.js" ></script>
     <script type="text/javascript" src="js/shop_gouwuche.js" ></script>
     <script type="text/javascript" src="js/login.js"></script>
-    <script type="text/javascript" src="js/getCart.js"></script>
+    <script type="text/javascript" src="js/getShopCart.js"></script>
 
 </head>
 <body>
@@ -40,6 +40,7 @@
                                     <li><a title="已买到的商品" target="_top" href="#">已买到的商品</a></li>
                                     <li><a title="个人主页" target="_top" href="#">个人主页</a></li>
                                     <li><a title="我的好友" target="_top" href="#">我的好友</a></li>
+                                    <li><a title="我的订单" target="_top" href="/order/showOrder">我的订单</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -58,10 +59,10 @@
 
                     <li>
                         <div class="topNav_menu">
-                            <a class="topNavHover">购物车<b id="cartnum">0</b>种商品<i></i></a>
-                            <!--<div id="showshop" class="topNav_menu_bd" style="display:none;width: 220px;height: auto;">
+                            <a href="http://localhost:16666/cart/showCart" class="topNavHover">购物车<b id="cartnum">0</b>种商品<i></i></a>
+                            <div id="showshop" class="topNav_menu_bd" style="display:none;width: 300px;height: auto;">
 
-                            </div>-->
+                            </div>
                         </div>
                     </li>
 
@@ -517,18 +518,50 @@
         <!-- 购物流程导航 End -->
 
         <script>
-            function checkall(e) {
+           /* function checkall(e) {
                 $("input[type='checkbox'][name='checkone']").attr('checked',e);
-            }
+            }*/
+            $(function () {
+                $("input[name='checkone']").click(function () {
+                    var price = parseFloat($(this).attr("alt"));
+                    var zj = parseFloat( $("#good_zongjia").html());
+                    if(this.checked){
+                        zj = zj+price;
+                        $("#good_zongjia").html(zj);
+                    }else{
+                        zj = zj-price;
+                        $("#good_zongjia").html(zj);
+                    }
+
+                })
+                $("#checkall").click(function () {
+                    $("input[type='checkbox'][name='checkone']").attr('checked',this.checked);
+                    if(this.checked){
+                        var zj = parseFloat( $("#good_zongjia").html());
+                        var a = $("input[name='checkone']");
+                        for(var i = 0;i<a.length;i++){
+                            var price = parseFloat($(a[i]).attr("alt"));
+                            zj+=price;
+                        }
+                        $("#good_zongjia").html(zj);
+                    }else{
+                        $("#good_zongjia").html(0.00);
+                    }
+                })
+                $("#insertorder").click(function () {
+                    $("#insertform").submit();
+                })
+            })
+
         </script>
 
-
+        <form id="insertform" action="/order/insert" method="post">
         <!-- 购物车列表 -->
         <table>
             <thead>
             <tr>
                 <th><span>全选
-                    <input type="checkbox" name="checkall" onclick="checkall(this.checked)"/>
+                    <input type="checkbox" name="checkall" id="checkall"/>
                 </span></th>
                 <th colspan="2"><span>商品</span></th>
                 <th><span>单价(元)</span></th>
@@ -541,7 +574,8 @@
 
             <tr th:each="shopcart : ${shopcartList}">
                 <td class="gwc_list_xiaoji"><span>
-                    <input type="checkbox" name="checkone"  />
+                    <input type="checkbox" name="checkone" th:value="${shopcart.id}"
+                           th:alt="${shopcart.shopPrice}"/>
                 </span></td>
                 <td class="gwc_list_pic"><a ><img th:src="${shopcart.goods.fengmian}" src="images/4_7b5239c3f153ae4b67ff760f54408a5b.jpg_tiny.jpg"  style="width: 100px;height: 80px;"/></a></td>
                 <td class="gwc_list_title"><a th:text="${shopcart.goods.subject}" >双层花架简约韩式田园欧式地中海风格宜家纯白架现代花盆架电话架 </a></td>
@@ -566,13 +600,14 @@
                     <div class="clear"></div>
                     <div class="gwc_foot_links">
                         <a  class="go">继续购物</a>
-                        <a  class="op">确认并填写订单</a>
+                        <a  class="op" id="insertorder">确认并填写订单</a>
                     </div>
                 </td>
             </tr>
             </tfoot>
         </table>
         <!-- 购物车列表 End -->
+        </form>
     </div>
     <!-- 购物车有商品 end -->
 

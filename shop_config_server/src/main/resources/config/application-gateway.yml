@@ -17,7 +17,7 @@ spring:
         - uri: lb://web-search
           predicates:
             - Path=/search/**
-        #配置搜索服务的路由规则
+        #配置商品详情服务的路由规则
         - uri: lb://web-item
           predicates:
             - Path=/item/**,/html/**
@@ -25,10 +25,14 @@ spring:
         - uri: lb://web-sso
           predicates:
             - Path=/sso/**
-        #配置sso服务的路由规则
+        #配置购物车服务的路由规则
         - uri: lb://web-cart
           predicates:
             - Path=/cart/**
+        #配置订单服务的路由规则
+        - uri: lb://web-order
+          predicates:
+            - Path=/order/**
         #配置前台服务的路由规则
         - uri: lb://web-front
           predicates:
