@@ -144,4 +144,9 @@ public class CartServiceImpl implements ICartService {
         }
         return shopcartList;
     }
+
+    @Override
+    public int deleteById(Integer id) {
+        return cartMapper.deleteById(id);
+    }
 }

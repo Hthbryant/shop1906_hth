@@ -19,4 +19,6 @@ public interface ICartService {
     List<Address> getUserAddress(Integer uid);
 
     List<Shopcart> getCartByIds(Integer uid,Integer[] checkone);
+
+    int deleteById(Integer id);
 }

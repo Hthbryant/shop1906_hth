@@ -529,7 +529,7 @@
 <div class="shop_gwc_bd clearfix">
     <div class="shop_gwc_bd_contents clearfix">
 
-        <form action="/order/insert" method="post">
+        <form id="orderForm" action="http://localhost:16666/order/insert" method="post">
 
         <!-- 购物流程导航 -->
         <div class="shop_gwc_bd_contents_lc clearfix">
@@ -552,10 +552,9 @@
             <div class="shop_bd_shdz_lists clearfix">
                 <ul>
                     <li th:each="address : ${addressList}">
-                        <input type="hidden" name="id" th:value="${address.id}"/>
                         <label>寄送至：
                             <span>
-                                <input type="radio" name="sendwho" th:checked="${address.isDefault==1? 'ture' : 'false'}"/>
+                                <input type="radio" name="sendwho" th:checked="${address.isDefault==1? 'ture' : 'false'}" th:value="${address.id}"/>
                             </span>
                         </label>
                         <em th:text="${address.address}">北京</em>
@@ -607,6 +606,7 @@
             <tbody>
 
             <tr th:each="shopcart : ${shopcartList}">
+                <input type="hidden" name="shopcartid" th:value="${shopcart.goods.id}"/>
                 <td class="gwc_list_pic"><a ><img th:src="${shopcart.goods.fengmian}" style="width: 100px;height: 80px;" src="images/4_7b5239c3f153ae4b67ff760f54408a5b.jpg_tiny.jpg" /></a></td>
                 <td class="gwc_list_title"><a th:text="${shopcart.goods.subject}" >双层花架简约韩式田园欧式地中海风格宜家纯白架现代花盆架电话架 </a></td>
                 <td class="gwc_list_danjia"><span th:text="${#numbers.formatCurrency(shopcart.goods.price)}">￥<strong id="danjia_001" >2550.00</strong></span></td>
@@ -629,7 +629,7 @@
                     <div class="clear"></div>
                     <div class="gwc_foot_links">
                         <a  class="go">返回上一步</a>
-                        <a  class="op">确认收货地址</a>
+                        <a  class="op" onclick="submitOrder()">确认收货地址</a>
                     </div>
                 </td>
             </tr>
@@ -641,6 +641,11 @@
     </div>
 </div>
 <!-- 购物车 Body End -->
+<script>
+    function submitOrder() {
+        $("#orderForm").submit();
+    }
+</script>
 
 <!-- Footer - wll - 2013/3/24 -->
 <div class="clear"></div>

@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -144,6 +142,27 @@ public class CartController {
         map.put("shopcartList",shopcartList);
 
         return "readyPay";
+    }
+
+    /**
+     * 通过id数组获得购物车集合
+     * @param uid
+     * @param ids
+     * @return
+     */
+
+    @RequestMapping("/getCartByIds")
+    @ResponseBody
+    public List<Shopcart> getCartByIds(@RequestParam("uid") Integer uid,@RequestParam("ids") Integer[] ids){
+        return cartService.getCartByIds(uid,ids);
+    }
+
+
+
+    @RequestMapping("/deleteById")
+    @ResponseBody
+    public int deleteById(@RequestParam("id") Integer id){
+        return cartService.deleteById(id);
     }
 
 }

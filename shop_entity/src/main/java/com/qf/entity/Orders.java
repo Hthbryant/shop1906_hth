@@ -11,11 +11,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class Order extends BaseEntity {
+public class Orders extends BaseEntity {
 
     private String oid;
     private Integer uid;
-    private String subject;
     private String person;
     private String address;
     private String phone;

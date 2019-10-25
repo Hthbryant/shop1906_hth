@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @Accessors(chain = true)
 public class OrderDetails extends BaseEntity{
 
+    private Integer oid;
     private Integer uid;
     private Integer gid;
     private Integer number;

@@ -2,17 +2,19 @@ package com.qf.controller;
 
 import com.qf.aop.IsLogin;
 import com.qf.entity.Address;
-import com.qf.entity.Order;
+import com.qf.entity.Orders;
 import com.qf.entity.User;
 import com.qf.service.IAddressService;
 import com.qf.service.IOrderDetailsService;
 import com.qf.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -25,22 +27,27 @@ public class OrderController {
     @Autowired
     private IAddressService addressService;
 
+
     @Autowired
     private IOrderDetailsService orderDetailsService;
 
     @IsLogin(mustLogin = true)
     @RequestMapping("/insert")
-    public String insert(User user,Integer[] checkone){
+    @Transactional
+    public String insert(User user,Integer[] shopcartid,Integer sendwho){
+
+        System.out.println("选中的购物车的商品的id为：");
+        System.out.println(Arrays.toString(shopcartid));
+        System.out.println("收货地址id为");
+        System.out.println(sendwho);
 
         //将这些id号的购物车添加至订单
-        Order order = orderService.insertOrder(user,checkone);
+        Orders order = orderService.insertOrder(user,shopcartid,sendwho);
+        System.out.println(order);
+        System.out.println(order.getId());
         //将这些id号的购物车添加至订单详情
-        for (Integer shopc : checkone) {
-//            orderDetailsService.insertOrderDetail(user,shopc);
-        }
         //将这些id号的购物车从购物车里面删除
-
-
+        orderDetailsService.insertOrderDetails(user,order.getId(),shopcartid,sendwho);
         return "insertSuccess";
     }
 

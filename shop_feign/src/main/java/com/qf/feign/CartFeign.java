@@ -10,6 +10,9 @@ import java.util.List;
 @FeignClient("web-cart")
 public interface CartFeign {
 
-    @RequestMapping("/cart/queryByIds")
-    List<Shopcart> queryByIds(@RequestParam Integer[] ids);
+    @RequestMapping("/cart/getCartByIds")
+    List<Shopcart> getCartByIds(@RequestParam("uid") Integer uid,@RequestParam("ids") Integer[] ids);
+
+    @RequestMapping("/cart/deleteById")
+    int deleteById(@RequestParam("id") Integer id);
 }
