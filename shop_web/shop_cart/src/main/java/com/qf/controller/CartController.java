@@ -1,6 +1,7 @@
 package com.qf.controller;
 
 import com.qf.aop.IsLogin;
+import com.qf.entity.Address;
 import com.qf.entity.Shopcart;
 import com.qf.entity.User;
 import com.qf.service.ICartService;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -104,6 +107,43 @@ public class CartController {
         }
 
         return "redirect:"+returnUrl;
+    }
+
+
+    /**
+     * 去准备支付页面
+     * @param user
+     * @param checkone
+     * @return
+     */
+    @IsLogin(mustLogin = true)
+    @RequestMapping("/toReadyPay")
+    public String toReadyPay(User user,Integer[] checkone,ModelMap map){
+
+        System.out.println("用户勾选的商品id：");
+        System.out.println(Arrays.toString(checkone));
+        //通过用户信息拿到用户的所有收货地址
+        List<Address> addressList = cartService.getUserAddress(user.getId());
+        map.put("addressList",addressList);
+        //查询出用户已经选择过的id的商品
+        List<Shopcart> shopcartList =   cartService.getCartByIds(user.getId(),checkone);
+        //打印选中的商品
+        System.out.println("打印选中的商品并对小计赋值");
+        BigDecimal shopSum = BigDecimal.valueOf(0);
+        if(shopcartList!=null){
+            for (Shopcart shopcart : shopcartList) {
+                shopcart = ShopMoney.countPrice(shopcart);
+                shopSum = shopSum.add(shopcart.getShopPrice());
+                System.out.println(shopcart);
+            }
+
+        }
+        //将总价存在map
+        double sum = shopSum.doubleValue();
+        map.put("shopSum",sum);
+        map.put("shopcartList",shopcartList);
+
+        return "readyPay";
     }
 
 }

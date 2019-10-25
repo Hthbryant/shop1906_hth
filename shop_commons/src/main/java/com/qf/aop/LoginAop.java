@@ -45,9 +45,7 @@ public class LoginAop {
 
         User user =null;
         if(loginToken!=null){
-            System.out.println("********loginToken不为空*******");
             user = (User) redisTemplate.opsForValue().get(loginToken);
-            System.out.println(user);
         }
 
 
@@ -60,12 +58,9 @@ public class LoginAop {
             boolean flag = isLogin.mustLogin();
             if(flag){
                 String url = "http://localhost:16666" + request.getRequestURI().toString();
-//                System.out.println("url:"+url);
                 String params = request.getQueryString();
-//                System.out.println("params"+params);
                 if(params!=null && params!=""){
                     url=url+"?"+params;
-//                    System.out.println("拼接后的url:"+url);
                 }
                 try {
                     url = URLEncoder.encode(url,"utf-8");

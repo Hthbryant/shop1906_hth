@@ -18,5 +18,14 @@ public class ShopMoney {
         }
         return shopcarts;
     }
+    public static Shopcart countPrice(Shopcart shopcart){
+
+                BigDecimal num = BigDecimal.valueOf(shopcart.getNumber());
+                BigDecimal danPrice = shopcart.getCartPrice();
+                BigDecimal shopMoney = num.multiply(danPrice);
+                shopcart.setShopPrice(shopMoney);
+
+        return shopcart;
+    }
 
 }

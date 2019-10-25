@@ -1,5 +1,6 @@
 package com.qf.service;
 
+import com.qf.entity.Address;
 import com.qf.entity.Shopcart;
 import com.qf.entity.User;
 
@@ -14,4 +15,8 @@ public interface ICartService {
     List<Shopcart> getCart(String cartToken, User user);
 
     void merge(String cartToken, User user);
+
+    List<Address> getUserAddress(Integer uid);
+
+    List<Shopcart> getCartByIds(Integer uid,Integer[] checkone);
 }
