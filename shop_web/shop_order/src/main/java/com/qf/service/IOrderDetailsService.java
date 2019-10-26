@@ -10,4 +10,6 @@ public interface IOrderDetailsService {
     List<OrderDetails> queryDetailsByOid(Integer oid);
 
     int insertOrderDetails(User user, Integer oid, Integer[] shopcartids, Integer addressid);
+
+    int paySuccess(Integer orderid);
 }

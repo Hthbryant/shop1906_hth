@@ -117,5 +117,14 @@ public class OrderServiceImpl implements IOrderService {
         return orderList;
     }
 
+    @Override
+    public int paySuccess(Integer orderid) {
+        //把状态值改为1
+        Orders orders = orderMapper.selectById(orderid);
+        orders.setStatus(1);
+        int result = orderMapper.updateById(orders);
+        return result;
+    }
+
 
 }

@@ -93,4 +93,27 @@ public class OrderController {
         return "orderList";
     }
 
+    /**
+     * 去到支付页面
+     * @param orderid
+     * @param map
+     * @return
+     */
+    @RequestMapping("/pay")
+    public String pay(Integer orderid,ModelMap map){
+        System.out.println("要结算的订单id为："+orderid);
+        map.put("orderid",orderid);
+        return "pay";
+    }
+
+    @RequestMapping("/paySuccess")
+    public String paySuccess(Integer orderId){
+        System.out.println("要结算的订单id为："+orderId);
+        //改变订单的状态值
+        int  result = orderService.paySuccess(orderId);
+        //改变订单详情的状态值
+        int result2  = orderDetailsService.paySuccess(orderId);
+        return "redirect:http://localhost:16666";
+    }
+
 }

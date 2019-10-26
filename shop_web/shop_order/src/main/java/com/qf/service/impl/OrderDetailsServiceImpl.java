@@ -61,4 +61,19 @@ public class OrderDetailsServiceImpl implements IOrderDetailsService {
 
         return 0;
     }
+
+    @Override
+    public int paySuccess(Integer orderid) {
+        //这这个订单号下面的订单详情的状态改为1
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("oid",orderid);
+        List<OrderDetails> orderDetails = orderDetailsMapper.selectList(queryWrapper);
+        if(orderDetails!=null){
+            for (OrderDetails o : orderDetails) {
+                o.setStatus(1);
+                orderDetailsMapper.updateById(o);
+            }
+        }
+        return 1;
+    }
 }
