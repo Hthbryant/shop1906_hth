@@ -15,4 +15,6 @@ public interface IOrderService {
     List<Orders> getOrder(Integer id);
 
     int paySuccess(Integer orderid);
+
+    Orders queryOrderByOid(Integer id);
 }

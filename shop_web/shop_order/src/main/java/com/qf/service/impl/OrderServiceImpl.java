@@ -126,5 +126,12 @@ public class OrderServiceImpl implements IOrderService {
         return result;
     }
 
+    @Override
+    public Orders queryOrderByOid(Integer id) {
+        //根据订单的id号，查询订单，不是id号
+
+        return orderMapper.selectById(id);
+    }
+
 
 }

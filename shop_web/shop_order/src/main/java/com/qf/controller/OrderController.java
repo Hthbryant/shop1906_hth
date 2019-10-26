@@ -49,7 +49,7 @@ public class OrderController {
         //将这些id号的购物车添加至订单详情
         //将这些id号的购物车从购物车里面删除
         orderDetailsService.insertOrderDetails(user,order.getId(),shopcartid,sendwho);
-        return "insertSuccess";
+        return "redirect:http://localhost:16666/pay/aliPay?oid="+order.getId();
     }
 
     /**
