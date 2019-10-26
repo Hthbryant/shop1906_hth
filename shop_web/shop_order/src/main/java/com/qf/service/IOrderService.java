@@ -11,4 +11,6 @@ public interface IOrderService {
 
 
     Orders insertOrder(User user, Integer[] shopcartid, Integer addressid);
+
+    List<Orders> getOrder(Integer id);
 }

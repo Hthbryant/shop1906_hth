@@ -2,12 +2,11 @@ package com.qf.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qf.dao.AddressMapper;
+import com.qf.dao.OrderDetailsMapper;
 import com.qf.dao.OrderMapper;
-import com.qf.entity.Address;
-import com.qf.entity.Orders;
-import com.qf.entity.Shopcart;
-import com.qf.entity.User;
+import com.qf.entity.*;
 import com.qf.feign.CartFeign;
+import com.qf.feign.GoodsFeign;
 import com.qf.service.IOrderService;
 import com.qf.util.ShopMoney;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,13 @@ public class OrderServiceImpl implements IOrderService {
     private CartFeign cartFeign;
 
     @Autowired
+    private GoodsFeign goodsFeign;
+
+    @Autowired
     private AddressMapper addressMapper;
+
+    @Autowired
+    private OrderDetailsMapper orderDetailsMapper;
 
     @Override
     public List<Orders> queryOrderByUid(Integer uid) {
@@ -81,6 +86,35 @@ public class OrderServiceImpl implements IOrderService {
                 .setOrderPrice(sum);
         orderMapper.insert(order);
         return order;
+    }
+
+    @Override
+    public List<Orders> getOrder(Integer id) {
+
+        //查询订单
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("uid",id);
+        queryWrapper.orderByDesc("create_time");
+        List<Orders> orderList = orderMapper.selectList(queryWrapper);
+
+        //查询订单详情
+        if(orderList!=null){
+            for (Orders o : orderList) {
+                QueryWrapper detail = new QueryWrapper();
+                detail.eq("oid",o.getId());
+                List<OrderDetails> detailsList = orderDetailsMapper.selectList(detail);
+                //根据订单详情的商品id查询商品详情
+                if(detailsList!=null){
+                    for (OrderDetails d : detailsList) {
+                        d.setGoods(goodsFeign.queryById(d.getGid()));
+                    }
+                }
+                //将查询出来的订单详情添加到订单中
+                o.setDetailsList(detailsList);
+            }
+        }
+
+        return orderList;
     }
 
 
