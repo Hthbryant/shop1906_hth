@@ -17,4 +17,6 @@ public interface IOrderService {
     int paySuccess(Integer orderid);
 
     Orders queryOrderByOid(Integer id);
+
+    int updateOrderByOid(String out_trade_no);
 }

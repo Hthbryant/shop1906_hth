@@ -53,13 +53,16 @@ public class GoodsServiceImpl implements IGoodsService {
 
         List<String> otherImg = goods.getOtherImg();
         System.out.println(otherImg);
-        for (String s : otherImg) {
-            GoodsImages otherImage = new GoodsImages();
-            otherImage.setGid(goods.getId());
-            otherImage.setUrl(s);
-            otherImage.setIsDefault(0);
-            goodsImagesMapper.insert(otherImage);
+        if(otherImg!=null){
+            for (String s : otherImg) {
+                GoodsImages otherImage = new GoodsImages();
+                otherImage.setGid(goods.getId());
+                otherImage.setUrl(s);
+                otherImage.setIsDefault(0);
+                goodsImagesMapper.insert(otherImage);
+            }
         }
+
 
         //创建静态页面
 //        if(!itemFeign.createHtml(goods)){

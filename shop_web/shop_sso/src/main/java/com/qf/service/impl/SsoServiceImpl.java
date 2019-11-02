@@ -43,7 +43,7 @@ public class SsoServiceImpl implements ISsoService {
         }
 
         String updatePasswordId = UUID.randomUUID().toString();
-        String updateUrl="http://localhsot:16666/sso/toUpdatePassword?token="+updatePasswordId;
+        String updateUrl="http://localhost:16666/sso/toUpdatePassword?token="+updatePasswordId;
         stringRedisTemplate.opsForValue().set(updatePasswordId,username);
         stringRedisTemplate.expire(updatePasswordId,5, TimeUnit.MINUTES);
 

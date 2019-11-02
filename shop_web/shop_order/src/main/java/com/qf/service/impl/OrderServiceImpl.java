@@ -133,5 +133,15 @@ public class OrderServiceImpl implements IOrderService {
         return orderMapper.selectById(id);
     }
 
+    @Override
+    public int updateOrderByOid(String out_trade_no) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("oid",out_trade_no);
+        Orders orders = orderMapper.selectOne(queryWrapper);
+        orders.setStatus(1);
+        int result = orderMapper.updateById(orders);
+        return result;
+    }
+
 
 }
