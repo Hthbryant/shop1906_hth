@@ -12,6 +12,9 @@ import com.qf.feign.SearchFeign;
 import com.qf.service.IGoodsService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@CacheConfig(cacheNames = "miaosha")
 public class GoodsServiceImpl implements IGoodsService {
 
     @Autowired
@@ -48,6 +52,7 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Override
     @Transactional
+    @CacheEvict( key = "'list'")
     public int insertGoods(Goods goods) {
 
         int result = goodsMapper.insert(goods);
@@ -99,7 +104,9 @@ public class GoodsServiceImpl implements IGoodsService {
     }
 
     @Override
+    @Cacheable( key = "'list'")
     public List<Map<String,Object>> queryMiaoshaList() {
+        System.out.println("查询了数据库，查询秒杀列表");
         List<Map<String,Object>> miaoshaList = new ArrayList<>();
 
         //查询这个时间段的秒杀商品
