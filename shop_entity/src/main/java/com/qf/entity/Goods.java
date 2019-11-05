@@ -19,6 +19,7 @@ public class Goods extends BaseEntity {
     private String info;
     private Integer storage;
     private BigDecimal price;
+    private Integer goodsType;
 
 
     //封面
@@ -32,4 +33,6 @@ public class Goods extends BaseEntity {
     @TableField(exist = false)
     private List<GoodsImages> goodsImagesList;
 
+    @TableField(exist = false)
+    private GoodsMiaosha goodsMiaosha;
 }

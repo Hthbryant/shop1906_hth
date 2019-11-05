@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qf.dao.GoodsMiaoshaMapper">
+    <resultMap id="MiaoshaMap" type="com.qf.entity.Goods">
+        <id column="id" property="id"/>
+        <result column="subject" property="subject"/>
+        <result column="info" property="info"/>
+        <result column="price" property="price"/>
+        <result column="storage" property="storage"/>
+        <result column="fengmian" property="fengmian"/>
+        <result column="goods_type" property="goodsType"/>
+        <result column="create_time" property="createTime"/>
+        <result column="status" property="status"/>
+        <collection property="goodsMiaosha" ofType="com.qf.entity.GoodsMiaosha">
+            <id column="gmid" property="id"/>
+            <id column="gid" property="gid"/>
+            <id column="start_time" property="startTime"/>
+            <id column="end_time" property="endTime"/>
+            <id column="miaosha_storage" property="miaoshaStorage"/>
+            <id column="miaosha_price" property="miaoshaPrice"/>
+            <id column="create_time1" property="createTime"/>
+            <id column="status1" property="status"/>
+        </collection>
+    </resultMap>
+    <select id="queryListNow" resultMap="MiaoshaMap">
+        select g.*,gi.url as 'fengmian',gm.* from goods g join goods_miaosha gm
+        on g.id=gm.gid join goods_images gi on g.id= gi.gid
+        where gi.is_default = 1
+        and gm.start_time  &lt;=NOW() and
+        gm.end_time>NOW()
+    </select>
+    <select id="queryListNext" resultMap="MiaoshaMap">
+        select g.*,gi.url as 'fengmian',gm.* from goods g join goods_miaosha gm
+        on g.id=gm.gid join goods_images gi on g.id= gi.gid
+        where gi.is_default = 1
+        and year(gm.start_time)=year(NOW())
+        and MONTH(gm.start_time)=month(NOW())
+        and day(gm.start_time) = day(NOW())
+        and hour(gm.start_time)=hour(now())+1
+    </select>
+</mapper>

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 @FeignClient("web-goods")
@@ -21,4 +22,7 @@ public interface GoodsFeign {
 
     @RequestMapping("/goods/queryById")
     Goods queryById(@RequestParam Integer gid);
+
+    @RequestMapping("/goods/queryMiaoshaNow")
+    List<Map<String,Object>> queryMiaoshaList();
 }

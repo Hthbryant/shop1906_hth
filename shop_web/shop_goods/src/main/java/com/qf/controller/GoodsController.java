@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/goods")
@@ -17,6 +18,7 @@ public class GoodsController {
 
     @Autowired
     private IGoodsService goodsService;
+
 
     @RequestMapping("/list")
     @ResponseBody
@@ -28,6 +30,7 @@ public class GoodsController {
     @RequestMapping("/insert")
     @ResponseBody
     public boolean insert(@RequestBody Goods goods){
+        //添加商品信息
         int result = goodsService.insertGoods(goods);
 
         return result>0;
@@ -36,5 +39,11 @@ public class GoodsController {
     @ResponseBody
     public Goods queryById(@RequestParam Integer gid){
         return goodsService.queryById(gid);
+    }
+
+    @RequestMapping("/queryMiaoshaNow")
+    @ResponseBody
+    public List<Map<String,Object>> queryMiaoshaList(){
+        return goodsService.queryMiaoshaList();
     }
 }

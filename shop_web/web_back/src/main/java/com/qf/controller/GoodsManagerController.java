@@ -3,6 +3,7 @@ package com.qf.controller;
 import com.github.tobato.fastdfs.domain.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.qf.entity.Goods;
+import com.qf.entity.GoodsMiaosha;
 import com.qf.feign.GoodsFeign;
 import com.qf.service.IBackService;
 import org.apache.commons.io.IOUtils;
@@ -108,12 +109,10 @@ public class GoodsManagerController {
 
     @RequestMapping("/insert")
     @ResponseBody
-    public String insert(Goods good){
+    public String insert(Goods good, GoodsMiaosha goodsMiaosha){
+        System.out.println(goodsMiaosha);
+        good.setGoodsMiaosha(goodsMiaosha);
         boolean flag = goodsFeign.insert(good);
-        if(flag){
-            return "<script>alert('添加商品成功');location.href='/back/goodsManager/list';</script>";
-        }else{
-            return "<script>alert('添加商品失败');location.href='/back/goodsManager/list';</script>";
-        }
+        return "<script>location.href='/back/goodsManager/list';</script>";
     }
 }
