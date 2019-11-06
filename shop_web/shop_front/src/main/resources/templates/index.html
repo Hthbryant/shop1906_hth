@@ -22,12 +22,14 @@
                 success:function (data) {
                     var nowMiaosha = data[0];
                     var nextMiaosha = data[1];
-
-                    timeDisplay(nowMiaosha,1);
-                    timeDisplay(nextMiaosha,2);
-
-                    showMiaosha(nowMiaosha,1);
-                    showMiaosha(nextMiaosha,2);
+                    if(nowMiaosha!=null){
+                        timeDisplay(nowMiaosha,1);
+                        showMiaosha(nowMiaosha,1);
+                    }
+                    if(nextMiaosha!=null){
+                        timeDisplay(nextMiaosha,2);
+                        showMiaosha(nextMiaosha,2);
+                    }
                 },
                 dataType:"json"
             });

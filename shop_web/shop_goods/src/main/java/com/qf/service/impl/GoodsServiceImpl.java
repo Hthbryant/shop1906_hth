@@ -78,18 +78,20 @@ public class GoodsServiceImpl implements IGoodsService {
 
 
         //添加秒杀商品信息
-        GoodsMiaosha goodsMiaosha = goods.getGoodsMiaosha();
-        System.out.println(goodsMiaosha);
-        if(goodsMiaosha!=null){
-            System.out.println("秒杀商品不为空");
+
+        if(goods.getGoodsType()==2){
+            GoodsMiaosha goodsMiaosha = goods.getGoodsMiaosha();
             goodsMiaosha.setGid(goods.getId());
             goodsMiaoshaMapper.insert(goodsMiaosha);
+
+            //如果秒杀商品信息不为空就创建秒杀静态页
+            //将商品信息放到rabbitmq中
+            rabbitTemplate.convertAndSend("goods_exchange","miaosha",goods);
+
+        }else{
+            //不是秒杀商品，将商品信息放到rabbitmq中，由item服务生成静态页
+            rabbitTemplate.convertAndSend("goods_exchange","normal",goods);
         }
-
-
-        //将商品信息放到rabbitmq中
-        rabbitTemplate.convertAndSend("goods_exchange","",goods);
-
         return result;
     }
 
