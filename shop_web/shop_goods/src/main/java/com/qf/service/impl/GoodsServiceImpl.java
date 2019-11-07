@@ -10,11 +10,14 @@ import com.qf.entity.GoodsMiaosha;
 import com.qf.feign.ItemFeign;
 import com.qf.feign.SearchFeign;
 import com.qf.service.IGoodsService;
+import com.qf.util.ConstantUtil;
+import com.qf.util.TimeUtil;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +47,9 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public List<Goods> queryAllGoods() {
@@ -87,6 +93,13 @@ public class GoodsServiceImpl implements IGoodsService {
             //如果秒杀商品信息不为空就创建秒杀静态页
             //将商品信息放到rabbitmq中
             rabbitTemplate.convertAndSend("goods_exchange","miaosha",goods);
+
+            //将秒杀商品的id存入到redis中
+            //商品的秒杀开始时间
+            String miaoshaStartTime = TimeUtil.getTimeStr(goodsMiaosha.getStartTime());
+            //秒杀商品存入redis的前缀
+            String startTimePrefix = ConstantUtil.miaosha_startTime;
+            stringRedisTemplate.opsForSet().add(startTimePrefix+"_"+miaoshaStartTime,goods.getId()+"");
 
         }else{
             //不是秒杀商品，将商品信息放到rabbitmq中，由item服务生成静态页

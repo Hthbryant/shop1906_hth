@@ -33,6 +33,13 @@ spring:
         - uri: lb://web-order
           predicates:
             - Path=/order/**,/pay/**
+        #配置秒杀抢购服务的路由规则
+        - uri: lb://web-miaosha
+          predicates:
+            - Path=/miaosha/qiangGou
+          filters:
+            - myCode
+            - myMiaosha
         #配置秒杀服务的路由规则
         - uri: lb://web-miaosha
           predicates:

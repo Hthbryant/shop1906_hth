@@ -14,6 +14,9 @@
     <script type="text/javascript" src="js/shop_goods.js" ></script>
     <script type="text/javascript" src="js/login.js"></script>
     <script type="text/javascript" src="js/getShopCart.js"></script>
+    <!-- 引入弹出框插件的js文件 -->
+    <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+    <script type="text/javascript" src="widget/dialog/jquery-ui-1.9.2.custom.min.js"></script>
 </head>
 <body>
 <!-- Header  -wll-2013/03/24 -->
@@ -570,6 +573,10 @@
 
         </div>
         <div class="shop_goods_show_right">
+            <form id="code_form" action="/miaosha/qiangGou" method="get">
+                <input type="hidden" id="form_code" name="code" value=""/>
+                <input type="hidden" id="form_gid" name="gid" value=""/>
+            </form>
             <ul>
                 <li>
                     <strong style="font-size:14px; font-weight:bold;"><font style="color: red;">【秒杀】</font>${goods.subject}</strong>
@@ -603,6 +610,11 @@
             </ul>
         </div>
     </div>
+    <div id="code_dialog" style="display: none;">
+        <img style="width: 200px;height: 100px;border: solid 1px black;" id="code_img" onclick="this.src='/miaosha/getCode?p='+new Date();" src=""/><br/>
+        验证码:<input type="text"  id="miaoshaCode"/><br/>
+        <button onclick="checkCode()">提交</button>
+    </div>
     <#--TODO 倒计时的一系列方法-->
     <script type="text/javascript">
         var sTime = new Date('${goods.goodsMiaosha.startTime?datetime}');
@@ -611,11 +623,31 @@
             getServerTime();
             djs();
         })
+        function checkCode() {
+            var code= $("#miaoshaCode").val();
+            $("#form_code").val(code);
+            var gid = ${goods.id};
+            $("#form_gid").val(gid);
+            $("#code_form").submit();
+        }
+        function toQiangGou() {
+            var gid = ${goods.id};
+            $.ajax({
+                type:"get",
+                url:"/miaosha/qiangGou?gid="+gid
+            })
+        }
         function djs() {
             var temp = sTime- serverTime;
             if(temp<=0){
                 $("#start_btn").click(function () {
-                    alert("开始秒杀");
+                    $("#code_img").attr("src","/miaosha/getCode?p="+new Date());
+                    $("#code_dialog").dialog({
+                        width:300,
+                        height:200,
+                        title: "验证码",
+                        modal:true
+                    } );
                 })
                 $("#start_btn").removeAttr("disabled");
                 $("#start_btn").html("开始秒杀");
